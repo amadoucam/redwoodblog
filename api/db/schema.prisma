@@ -1,0 +1,46 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+  //provider = "sqlite"
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
+}
+
+// Define your own datamodels here and run `yarn redwood prisma migrate dev`
+// to create migrations for them and apply to your dev DB.
+// TODO: Please remove the following example:
+
+//model UserExample {
+  //id    Int     @id @default(autoincrement())
+  //email String  @unique
+  //name  String?
+//} 
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+}
+
+model Contact {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+}
+//nécessite un supplément !lorsqu'un champ est requis. N'oubliez pas : schema.prismala syntaxe nécessite un caractère supplémentaire ?lorsqu'un champ n'est pas requis.
+
+model User {
+  id                  Int       @id @default(autoincrement())
+  name                String?
+  email               String    @unique
+  hashedPassword      String
+  salt                String
+  resetToken          String?
+  resetTokenExpiresAt DateTime?
+}
